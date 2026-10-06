@@ -42,19 +42,19 @@ export const JsonViewerModal: React.FC<JsonViewerModalProps> = ({ module, onOpen
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-2xs flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 shadow-2xs flex flex-wrap items-center justify-between gap-4 transition-colors">
         <div>
-          <div className="flex items-center gap-2 text-xs text-slate-500 font-medium mb-1">
-            <span className="text-indigo-600 font-semibold">Importar & Exportar</span>
+          <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 font-medium mb-1">
+            <span className="text-indigo-600 dark:text-indigo-400 font-semibold">Importar & Exportar</span>
             <span aria-hidden="true">·</span>
             <span>JSON Validado</span>
             <span aria-hidden="true">·</span>
             <span>Tipado ReadingModule</span>
           </div>
-          <h2 className="text-xl font-bold text-slate-900 tracking-tight">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">
             Gestión y Exportación JSON
           </h2>
-          <p className="text-xs text-slate-600 mt-1 max-w-2xl">
+          <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 max-w-2xl">
             Descarga o copia el módulo en formato JSON estructurado, o importa cualquier archivo JSON externo con el tipado de IELTS/CEFR.
           </p>
         </div>
@@ -62,23 +62,23 @@ export const JsonViewerModal: React.FC<JsonViewerModalProps> = ({ module, onOpen
         {/* Action Controls */}
         <div className="flex flex-wrap items-center gap-2">
           {/* Schema Selector */}
-          <div className="flex items-center p-1 bg-slate-100 rounded-lg text-xs font-semibold">
+          <div className="flex items-center p-1 bg-slate-100 dark:bg-slate-800 rounded-lg text-xs font-semibold border border-slate-200/80 dark:border-slate-700">
             <button
               onClick={() => setSchemaFormat('standard')}
-              className={`px-3 py-1.5 rounded-md transition-colors ${
+              className={`px-3 py-1.5 rounded-md transition-colors cursor-pointer ${
                 schemaFormat === 'standard'
-                  ? 'bg-white text-indigo-700 shadow-2xs'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-white dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 shadow-2xs font-bold'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               Estándar (snake_case)
             </button>
             <button
               onClick={() => setSchemaFormat('extended')}
-              className={`px-3 py-1.5 rounded-md transition-colors ${
+              className={`px-3 py-1.5 rounded-md transition-colors cursor-pointer ${
                 schemaFormat === 'extended'
-                  ? 'bg-white text-indigo-700 shadow-2xs'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-white dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 shadow-2xs font-bold'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               Extendido (+Examiner)
@@ -87,7 +87,7 @@ export const JsonViewerModal: React.FC<JsonViewerModalProps> = ({ module, onOpen
 
           <button
             onClick={onOpenImport}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-indigo-700 bg-indigo-50 border border-indigo-200 rounded-lg hover:bg-indigo-100 shadow-2xs transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 rounded-lg hover:bg-indigo-100 dark:hover:bg-indigo-900/60 shadow-2xs transition-colors cursor-pointer"
           >
             <Upload className="w-3.5 h-3.5" />
             <span>Importar JSON</span>
@@ -95,16 +95,16 @@ export const JsonViewerModal: React.FC<JsonViewerModalProps> = ({ module, onOpen
 
           <button
             onClick={handleCopy}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 shadow-2xs transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-750 shadow-2xs transition-colors cursor-pointer"
           >
             {copied ? (
               <>
-                <Check className="w-3.5 h-3.5 text-emerald-600" />
-                <span className="text-emerald-700">¡Copiado!</span>
+                <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                <span className="text-emerald-700 dark:text-emerald-300 font-bold">¡Copiado!</span>
               </>
             ) : (
               <>
-                <Copy className="w-3.5 h-3.5 text-slate-500" />
+                <Copy className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
                 <span>Copiar JSON</span>
               </>
             )}
@@ -112,7 +112,7 @@ export const JsonViewerModal: React.FC<JsonViewerModalProps> = ({ module, onOpen
 
           <button
             onClick={handleDownload}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-lg shadow-2xs transition-colors"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white bg-slate-900 dark:bg-indigo-600 hover:bg-slate-800 dark:hover:bg-indigo-700 rounded-lg shadow-2xs transition-colors cursor-pointer"
           >
             <Download className="w-3.5 h-3.5" />
             <span>Descargar .json</span>

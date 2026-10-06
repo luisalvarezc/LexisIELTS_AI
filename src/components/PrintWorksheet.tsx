@@ -7,15 +7,24 @@ interface PrintWorksheetProps {
 
 export const PrintWorksheet: React.FC<PrintWorksheetProps> = ({ module }) => {
   return (
-    <div className="hidden print:block font-serif text-black p-4 space-y-6 max-w-4xl mx-auto">
+    <div className="hidden print:block font-serif text-black p-6 space-y-6 max-w-4xl mx-auto bg-white min-h-screen">
       {/* Worksheet Header */}
-      <div className="border-b-2 border-black pb-4">
-        <div className="flex justify-between items-start text-xs font-sans uppercase tracking-wider mb-2">
-          <span>Official IELTS & CEFR Reading Practice Module</span>
-          <span>Target Level: {module.targetLevel}</span>
+      <div className="border-b-2 border-black pb-4 space-y-2">
+        <div className="flex justify-between items-start text-xs font-sans uppercase tracking-wider text-gray-600">
+          <span>Official IELTS & CEFR Academic Reading Worksheet</span>
+          <span className="font-bold text-black">{module.targetLevel}</span>
         </div>
-        <h1 className="text-xl font-bold leading-tight">{module.title}</h1>
-        <div className="flex justify-between items-center text-xs font-sans mt-3 text-gray-700">
+
+        <h1 className="text-2xl font-bold leading-tight text-black">{module.title}</h1>
+
+        <div className="text-xs font-sans text-gray-800 flex items-center gap-2">
+          <span className="font-bold uppercase tracking-wide">Academic Curriculum Topic:</span>
+          <span className="italic">{module.topic}</span>
+          <span className="mx-1">·</span>
+          <span>{module.structureType}</span>
+        </div>
+
+        <div className="flex justify-between items-center text-xs font-sans pt-2 text-gray-700 border-t border-gray-300">
           <div>
             <span className="font-semibold">Candidate Name:</span> ___________________________
           </div>
@@ -29,44 +38,51 @@ export const PrintWorksheet: React.FC<PrintWorksheetProps> = ({ module }) => {
       </div>
 
       {/* Instructions */}
-      <div className="text-xs italic bg-gray-100 p-2.5 rounded border border-gray-300 font-sans">
-        <strong>Instructions to Candidates:</strong> Read the four paragraphs below carefully. Answer the comprehension questions that follow by circling the single correct letter (A, B, C, or D). Recommended reading time: 15–20 minutes.
+      <div className="text-xs italic bg-gray-50 p-3 rounded border border-gray-300 font-sans leading-relaxed">
+        <strong>Instructions to Candidates:</strong> Read the four paragraphs of the academic passage below carefully. 
+        Then answer the comprehension examination questions by circling the single unambiguous correct letter (A, B, C, or D). 
+        Recommended test time allocation: 15–20 minutes.
       </div>
 
       {/* Reading Passage */}
       <div className="space-y-4 text-sm leading-relaxed text-justify">
-        <h2 className="text-xs font-sans font-bold uppercase tracking-wider border-b border-gray-300 pb-1">
-          Reading Passage
-        </h2>
+        <div className="flex items-center justify-between border-b border-gray-300 pb-1 text-xs font-sans font-bold uppercase tracking-wider text-gray-700">
+          <span>Official Reading Passage</span>
+          <span>One-Page Academic Discourse</span>
+        </div>
         {module.readingText.paragraphs.map((p, idx) => (
-          <p key={idx} className="indent-6">
-            <sup className="font-sans font-bold mr-1">[{idx + 1}]</sup>
-            {p.text}
-          </p>
+          <div key={idx} className="space-y-1">
+            <div className="text-[10px] font-sans font-bold text-gray-500 uppercase tracking-wide">
+              Paragraph {idx + 1}: {p.role}
+            </div>
+            <p className="indent-6 text-justify leading-relaxed">
+              {p.text}
+            </p>
+          </div>
         ))}
       </div>
 
       {/* Vocabulary Table */}
-      <div className="pt-4 space-y-2">
-        <h2 className="text-xs font-sans font-bold uppercase tracking-wider border-b border-gray-300 pb-1">
-          Key Academic Vocabulary
+      <div className="pt-4 space-y-2 break-inside-avoid">
+        <h2 className="text-xs font-sans font-bold uppercase tracking-wider border-b border-gray-300 pb-1 text-gray-800">
+          Key Academic Vocabulary ({module.keyVocabulary.length} Critical Terms)
         </h2>
         <table className="w-full text-xs text-left border-collapse border border-gray-300">
           <thead>
             <tr className="bg-gray-100 font-sans">
               <th className="border border-gray-300 p-1.5 w-1/4">Term & POS</th>
-              <th className="border border-gray-300 p-1.5 w-1/3">Definition</th>
-              <th className="border border-gray-300 p-1.5">Context / Collocation</th>
+              <th className="border border-gray-300 p-1.5 w-1/3">English Definition</th>
+              <th className="border border-gray-300 p-1.5">Contextual Sentence & Collocation</th>
             </tr>
           </thead>
           <tbody>
             {module.keyVocabulary.map((v, i) => (
               <tr key={i}>
-                <td className="border border-gray-300 p-1.5 font-bold">
+                <td className="border border-gray-300 p-1.5 font-bold align-top">
                   {v.term} <span className="font-normal italic">({v.partOfSpeech})</span>
                 </td>
-                <td className="border border-gray-300 p-1.5">{v.definition}</td>
-                <td className="border border-gray-300 p-1.5 italic">
+                <td className="border border-gray-300 p-1.5 align-top">{v.definition}</td>
+                <td className="border border-gray-300 p-1.5 italic align-top">
                   "{v.contextSentence}" {v.collocation ? `[${v.collocation}]` : ''}
                 </td>
               </tr>
@@ -75,18 +91,18 @@ export const PrintWorksheet: React.FC<PrintWorksheetProps> = ({ module }) => {
         </table>
       </div>
 
-      {/* Questions */}
+      {/* Comprehension Quiz Questions */}
       <div className="pt-6 space-y-4 break-before-page">
-        <h2 className="text-xs font-sans font-bold uppercase tracking-wider border-b border-gray-300 pb-1">
-          Comprehension Examination (Questions 1–{module.quiz.length})
+        <h2 className="text-xs font-sans font-bold uppercase tracking-wider border-b border-gray-300 pb-1 text-gray-800">
+          Reading Comprehension Examination (Questions 1–{module.quiz.length})
         </h2>
         <div className="space-y-4">
           {module.quiz.map((q, idx) => (
-            <div key={q.id} className="text-xs space-y-1.5 break-inside-avoid">
-              <p className="font-bold">
+            <div key={q.id} className="text-xs space-y-1.5 break-inside-avoid border-b border-gray-100 pb-3">
+              <p className="font-bold text-black">
                 {idx + 1}. {q.question}
               </p>
-              <div className="grid grid-cols-2 gap-1.5 pl-4">
+              <div className="grid grid-cols-2 gap-2 pl-3">
                 {(['A', 'B', 'C', 'D'] as const).map((opt) => (
                   <div key={opt} className="flex items-start gap-1">
                     <span className="font-sans font-bold">[{opt}]</span>
@@ -99,16 +115,30 @@ export const PrintWorksheet: React.FC<PrintWorksheetProps> = ({ module }) => {
         </div>
       </div>
 
-      {/* Answer Key Footer */}
-      <div className="pt-6 border-t-2 border-dashed border-gray-400 text-xs font-sans break-inside-avoid">
-        <h3 className="font-bold uppercase tracking-wider mb-2">Teacher & Examiner Answer Key</h3>
-        <div className="space-y-1 text-[11px] text-gray-800">
+      {/* Answer Key & Examiner Notes (Separated for Proctor/Self-Evaluation) */}
+      <div className="pt-6 border-t-2 border-dashed border-gray-400 text-xs font-sans break-inside-avoid space-y-3">
+        <div className="flex justify-between items-center">
+          <h3 className="font-bold uppercase tracking-wider text-gray-900">
+            Official Answer Key & Cited Textual Evidence
+          </h3>
+          <span className="text-[10px] text-gray-500 uppercase">Examiner Reference Only</span>
+        </div>
+        <div className="space-y-1.5 text-[11px] text-gray-800">
           {module.quiz.map((q, idx) => (
-            <div key={q.id}>
-              <strong>Q{idx + 1}: [{q.correctAnswer}]</strong> — {q.explanation} (Evidence: <em>"{q.evidenceQuote}"</em>)
+            <div key={q.id} className="leading-snug">
+              <strong>Question {idx + 1}: [{q.correctAnswer}]</strong> — {q.explanation}{' '}
+              {q.evidenceQuote && (
+                <span className="text-gray-600 italic">(Evidence: "{q.evidenceQuote}")</span>
+              )}
             </div>
           ))}
         </div>
+
+        {module.examinerNotes && (
+          <div className="pt-2 text-[10px] text-gray-500 border-t border-gray-200">
+            <strong>Examiner Tone & Lexical Note:</strong> {module.examinerNotes.academicToneSummary}
+          </div>
+        )}
       </div>
     </div>
   );

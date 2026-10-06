@@ -131,10 +131,10 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
   return (
     <div className="space-y-6">
       {/* Section Header */}
-      <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-2xs flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 shadow-2xs flex flex-wrap items-center justify-between gap-4 transition-colors">
         <div>
-          <div className="flex items-center gap-2 text-xs text-slate-500 font-medium mb-1">
-            <span className="text-indigo-600 font-semibold">{targetLevel}</span>
+          <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 font-medium mb-1">
+            <span className="text-indigo-600 dark:text-indigo-400 font-semibold">{targetLevel}</span>
             <span aria-hidden="true">·</span>
             <span>{vocabulary.length} Términos Académicos</span>
             <span aria-hidden="true">·</span>
@@ -142,22 +142,22 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
               {masteredTerms.size} de {vocabulary.length} Dominados
             </span>
           </div>
-          <h2 className="text-xl font-bold text-slate-900 tracking-tight">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">
             Vocabulario Académico y Flashcards
           </h2>
-          <p className="text-xs text-slate-600 mt-1 max-w-2xl">
+          <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 max-w-2xl">
             Entrena tu retención activa alternando entre el término formal y su definición académica para consolidar el vocabulario del examen.
           </p>
         </div>
 
         {/* View Mode Tabs */}
-        <div className="flex items-center p-1 bg-slate-100 rounded-lg text-xs font-semibold">
+        <div className="flex items-center p-1 bg-slate-100 dark:bg-slate-800 rounded-lg text-xs font-semibold border border-slate-200/80 dark:border-slate-700">
           <button
             onClick={() => setViewMode('flashcards')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors ${
               viewMode === 'flashcards'
-                ? 'bg-white text-indigo-700 shadow-2xs font-bold'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-white dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 shadow-2xs font-bold'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             <Layers className="w-3.5 h-3.5" />
@@ -167,8 +167,8 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
             onClick={() => setViewMode('table')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors ${
               viewMode === 'table'
-                ? 'bg-white text-indigo-700 shadow-2xs font-bold'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-white dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 shadow-2xs font-bold'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             <BookA className="w-3.5 h-3.5" />
@@ -181,22 +181,22 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
         /* INTERACTIVE 3D FLASHCARD DECK */
         <div className="max-w-2xl mx-auto space-y-4">
           {/* Deck Toolbar */}
-          <div className="flex flex-wrap items-center justify-between gap-3 px-2 text-xs text-slate-600 font-medium">
+          <div className="flex flex-wrap items-center justify-between gap-3 px-2 text-xs text-slate-600 dark:text-slate-300 font-medium">
             <div className="flex items-center gap-3">
-              <span className="font-semibold text-slate-800">
+              <span className="font-semibold text-slate-800 dark:text-slate-200">
                 Tarjeta {currentIndex + 1} de {cards.length}
               </span>
-              <span className="text-slate-300">|</span>
+              <span className="text-slate-300 dark:text-slate-700">|</span>
               <button
                 onClick={() =>
                   setStudyDirection((prev) =>
                     prev === 'term_first' ? 'def_first' : 'term_first'
                   )
                 }
-                className="inline-flex items-center gap-1 text-slate-600 hover:text-indigo-600 transition-colors"
+                className="inline-flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors cursor-pointer"
                 title="Cambiar orientación de estudio (Término primero o Definición primero)"
               >
-                <ArrowRightLeft className="w-3 h-3 text-indigo-500" />
+                <ArrowRightLeft className="w-3 h-3 text-indigo-500 dark:text-indigo-400" />
                 <span>
                   {studyDirection === 'term_first' ? 'Término → Definición' : 'Definición → Término'}
                 </span>
@@ -205,13 +205,13 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
 
             <div className="flex items-center gap-2">
               {/* Voice Gender Switcher */}
-              <div className="inline-flex items-center rounded-lg border border-slate-200 bg-slate-50 p-0.5 text-[11px]">
+              <div className="inline-flex items-center rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-0.5 text-[11px]">
                 <button
                   onClick={() => handleVoiceGenderChange('female')}
-                  className={`px-2 py-0.5 rounded-md font-medium transition-colors ${
+                  className={`px-2 py-0.5 rounded-md font-medium transition-colors cursor-pointer ${
                     voiceGender === 'female'
-                      ? 'bg-white text-indigo-700 shadow-2xs font-bold'
-                      : 'text-slate-600 hover:text-slate-900'
+                      ? 'bg-white dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 shadow-2xs font-bold'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                   }`}
                   title="Voz Femenina Juvenil"
                 >
@@ -219,10 +219,10 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
                 </button>
                 <button
                   onClick={() => handleVoiceGenderChange('male')}
-                  className={`px-2 py-0.5 rounded-md font-medium transition-colors ${
+                  className={`px-2 py-0.5 rounded-md font-medium transition-colors cursor-pointer ${
                     voiceGender === 'male'
-                      ? 'bg-white text-indigo-700 shadow-2xs font-bold'
-                      : 'text-slate-600 hover:text-slate-900'
+                      ? 'bg-white dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 shadow-2xs font-bold'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                   }`}
                   title="Voz Masculina Juvenil"
                 >
@@ -232,13 +232,13 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
 
               <button
                 onClick={handleShuffle}
-                className="inline-flex items-center gap-1 px-2.5 py-1 text-slate-600 hover:text-indigo-700 hover:bg-slate-100 rounded-md transition-colors text-[11px]"
+                className="inline-flex items-center gap-1 px-2.5 py-1 text-slate-600 dark:text-slate-400 hover:text-indigo-700 dark:hover:text-indigo-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md transition-colors text-[11px] cursor-pointer"
                 title="Barajar tarjetas"
               >
                 <Shuffle className="w-3 h-3" />
                 <span>Barajar</span>
               </button>
-              <span className="hidden sm:inline-flex items-center gap-1 text-[11px] text-slate-400 bg-slate-100 px-2 py-0.5 rounded">
+              <span className="hidden sm:inline-flex items-center gap-1 text-[11px] text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded border border-slate-200/50 dark:border-slate-700">
                 <Keyboard className="w-3 h-3" /> [Espacio]
               </span>
             </div>
@@ -259,12 +259,12 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
             >
               {/* FRONT FACE (Término o Definición según modo) */}
               <div
-                className="absolute inset-0 w-full h-full bg-white rounded-2xl p-7 sm:p-9 border-2 border-indigo-200 shadow-md flex flex-col justify-between items-center text-center hover:border-indigo-400 transition-colors"
+                className="absolute inset-0 w-full h-full bg-white dark:bg-slate-900 rounded-2xl p-7 sm:p-9 border-2 border-indigo-200 dark:border-indigo-900/60 shadow-md flex flex-col justify-between items-center text-center hover:border-indigo-400 dark:hover:border-indigo-600 transition-colors"
                 style={{ backfaceVisibility: 'hidden' }}
               >
                 {/* Front Header */}
-                <div className="w-full flex items-center justify-between text-xs text-slate-400">
-                  <span className="font-mono italic uppercase tracking-wider text-[11px] bg-slate-100 px-2 py-0.5 rounded text-slate-600 font-semibold">
+                <div className="w-full flex items-center justify-between text-xs text-slate-400 dark:text-slate-500">
+                  <span className="font-mono italic uppercase tracking-wider text-[11px] bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded text-slate-600 dark:text-slate-300 font-semibold border border-slate-200/50 dark:border-slate-700">
                     {activeCard.partOfSpeech}
                   </span>
                   <div className="flex items-center gap-1">
@@ -273,8 +273,8 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
                       title="Escuchar pronunciación instantánea"
                       className={`p-2 rounded-full transition-all cursor-pointer ${
                         speakingTerm === activeCard.term
-                          ? 'bg-indigo-100 text-indigo-700 ring-2 ring-indigo-400 scale-110 shadow-xs animate-pulse'
-                          : 'hover:bg-slate-100 text-slate-500 hover:text-indigo-600 active:scale-95'
+                          ? 'bg-indigo-100 dark:bg-indigo-900/80 text-indigo-700 dark:text-indigo-300 ring-2 ring-indigo-400 scale-110 shadow-xs animate-pulse'
+                          : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 active:scale-95'
                       }`}
                     >
                       <Volume2 className="w-4 h-4" />
@@ -282,10 +282,10 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
                     <button
                       onClick={(e) => toggleMastered(activeCard.term, e)}
                       title={isCurrentMastered ? 'Marcar como por repasar' : 'Marcar como dominada'}
-                      className={`p-1.5 rounded-full transition-colors ${
+                      className={`p-1.5 rounded-full transition-colors cursor-pointer ${
                         isCurrentMastered
-                          ? 'text-emerald-600 bg-emerald-50'
-                          : 'text-slate-400 hover:text-emerald-600 hover:bg-slate-100'
+                          ? 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60'
+                          : 'text-slate-400 dark:text-slate-500 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-slate-100 dark:hover:bg-slate-800'
                       }`}
                     >
                       <CheckCircle2 className="w-4 h-4" />
@@ -297,21 +297,21 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
                 <div className="my-auto py-4 space-y-3 max-w-lg">
                   {studyDirection === 'term_first' ? (
                     <>
-                      <span className="text-3xl sm:text-4xl font-serif font-bold text-slate-900 tracking-tight block">
+                      <span className="text-3xl sm:text-4xl font-serif font-bold text-slate-900 dark:text-white tracking-tight block">
                         {activeCard.term}
                       </span>
                       {activeCard.collocation && (
-                        <span className="inline-block text-xs font-semibold text-indigo-700 bg-indigo-50 border border-indigo-100 px-2.5 py-0.5 rounded-full">
+                        <span className="inline-block text-xs font-semibold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-100 dark:border-indigo-800 px-2.5 py-0.5 rounded-full">
                           Colocación: {activeCard.collocation}
                         </span>
                       )}
                     </>
                   ) : (
                     <>
-                      <p className="text-base sm:text-lg font-medium text-slate-800 leading-relaxed">
+                      <p className="text-base sm:text-lg font-medium text-slate-800 dark:text-slate-200 leading-relaxed">
                         "{activeCard.definition}"
                       </p>
-                      <p className="text-xs text-indigo-600 font-semibold">
+                      <p className="text-xs text-indigo-600 dark:text-indigo-400 font-semibold">
                         ¿Cuál es el término académico en inglés?
                       </p>
                     </>
@@ -319,8 +319,8 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
                 </div>
 
                 {/* Front Footer Prompt */}
-                <div className="w-full flex items-center justify-between text-[11px] text-slate-400 pt-2 border-t border-slate-100">
-                  <span className="flex items-center gap-1 text-indigo-600 font-semibold">
+                <div className="w-full flex items-center justify-between text-[11px] text-slate-400 dark:text-slate-500 pt-2 border-t border-slate-100 dark:border-slate-800">
+                  <span className="flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-semibold">
                     <RotateCw className="w-3.5 h-3.5" /> Clic o [Espacio] para voltear
                   </span>
                   <span>{studyDirection === 'term_first' ? 'Ver definición' : 'Ver término'}</span>
@@ -329,7 +329,7 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
 
               {/* BACK FACE (Definición o Término según modo) */}
               <div
-                className="absolute inset-0 w-full h-full bg-slate-900 text-white rounded-2xl p-7 sm:p-9 border-2 border-slate-800 shadow-xl flex flex-col justify-between items-center text-center"
+                className="absolute inset-0 w-full h-full bg-slate-900 dark:bg-slate-950 text-white rounded-2xl p-7 sm:p-9 border-2 border-slate-800 dark:border-slate-800 shadow-xl flex flex-col justify-between items-center text-center"
                 style={{
                   backfaceVisibility: 'hidden',
                   transform: 'rotateY(180deg)',
@@ -355,7 +355,7 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
                     <button
                       onClick={(e) => toggleMastered(activeCard.term, e)}
                       title={isCurrentMastered ? 'Desmarcar' : 'Marcar como dominada'}
-                      className={`p-1.5 rounded-full transition-colors ${
+                      className={`p-1.5 rounded-full transition-colors cursor-pointer ${
                         isCurrentMastered
                           ? 'text-emerald-400 bg-emerald-950/60'
                           : 'text-slate-500 hover:text-emerald-400'
@@ -386,7 +386,7 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
                           <button
                             onClick={(e) => speakWord(activeCard.contextSentence, e)}
                             title="Escuchar oración completa en contexto"
-                            className="inline-flex items-center gap-1 text-[11px] font-sans not-italic text-indigo-300 hover:text-white px-1.5 py-0.5 rounded hover:bg-slate-700/50 transition-colors"
+                            className="inline-flex items-center gap-1 text-[11px] font-sans not-italic text-indigo-300 hover:text-white px-1.5 py-0.5 rounded hover:bg-slate-700/50 transition-colors cursor-pointer"
                           >
                             <Volume2 className="w-3 h-3" />
                             <span>Escuchar oración</span>
@@ -430,7 +430,7 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
           <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
             <button
               onClick={handlePrev}
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 shadow-2xs transition-colors"
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 shadow-2xs transition-colors cursor-pointer"
             >
               <ChevronLeft className="w-4 h-4" />
               <span>Anterior</span>
@@ -447,12 +447,12 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
                       setIsFlipped(false);
                       setCurrentIndex(i);
                     }}
-                    className={`h-2.5 rounded-full transition-all ${
+                    className={`h-2.5 rounded-full transition-all cursor-pointer ${
                       currentIndex === i
-                        ? 'w-7 bg-indigo-600'
+                        ? 'w-7 bg-indigo-600 dark:bg-indigo-500'
                         : isMastered
                         ? 'w-2.5 bg-emerald-500'
-                        : 'w-2.5 bg-slate-300 hover:bg-slate-400'
+                        : 'w-2.5 bg-slate-300 dark:bg-slate-700 hover:bg-slate-400 dark:hover:bg-slate-600'
                     }`}
                     title={`${c.term} (${isMastered ? 'Dominada' : 'Por repasar'})`}
                   />
@@ -463,16 +463,16 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
             <div className="flex items-center gap-2">
               <button
                 onClick={(e) => toggleMastered(activeCard.term, e)}
-                className={`inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg border transition-colors ${
+                className={`inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg border transition-colors cursor-pointer ${
                   isCurrentMastered
-                    ? 'bg-emerald-50 border-emerald-300 text-emerald-800'
-                    : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'
+                    ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300'
+                    : 'bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700'
                 }`}
                 title="Marcar si ya te sabes este término"
               >
                 <CheckCircle2
                   className={`w-3.5 h-3.5 ${
-                    isCurrentMastered ? 'text-emerald-600' : 'text-slate-400'
+                    isCurrentMastered ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'
                   }`}
                 />
                 <span>{isCurrentMastered ? 'Dominada' : 'Marcar Dominada'}</span>
@@ -480,7 +480,7 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
 
               <button
                 onClick={handleNext}
-                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 shadow-2xs transition-colors"
+                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-2xs transition-colors cursor-pointer"
               >
                 <span>Siguiente</span>
                 <ChevronRight className="w-4 h-4" />
@@ -490,10 +490,10 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
         </div>
       ) : (
         /* TABLE VIEW */
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden transition-colors">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs text-slate-700">
-              <thead className="bg-slate-50 text-slate-500 uppercase tracking-wider font-semibold border-b border-slate-200">
+            <table className="w-full text-left text-xs text-slate-700 dark:text-slate-300">
+              <thead className="bg-slate-50 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold border-b border-slate-200 dark:border-slate-800">
                 <tr>
                   <th scope="col" className="px-5 py-3.5 w-1/4">
                     Término & Categoría
@@ -509,12 +509,12 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                 {vocabulary.map((item, idx) => (
-                  <tr key={idx} className="hover:bg-slate-50/70 transition-colors">
+                  <tr key={idx} className="hover:bg-slate-50/70 dark:hover:bg-slate-800/50 transition-colors">
                     <td className="px-5 py-4 align-top">
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-bold text-slate-900">
+                        <span className="text-sm font-bold text-slate-900 dark:text-white">
                           {item.term}
                         </span>
                         <button
@@ -522,29 +522,29 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
                           title="Pronunciar término instantáneamente"
                           className={`p-1.5 rounded transition-all cursor-pointer ${
                             speakingTerm === item.term
-                              ? 'bg-indigo-100 text-indigo-700 ring-2 ring-indigo-300 scale-105'
-                              : 'text-slate-400 hover:text-indigo-600 hover:bg-indigo-50'
+                              ? 'bg-indigo-100 dark:bg-indigo-900/80 text-indigo-700 dark:text-indigo-300 ring-2 ring-indigo-300 scale-105'
+                              : 'text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-slate-800'
                           }`}
                         >
                           <Volume2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
-                      <span className="text-[11px] font-mono text-slate-500 italic mt-0.5 block">
+                      <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400 italic mt-0.5 block">
                         ({item.partOfSpeech})
                       </span>
                     </td>
-                    <td className="px-5 py-4 align-top text-slate-700 leading-relaxed">
+                    <td className="px-5 py-4 align-top text-slate-700 dark:text-slate-300 leading-relaxed">
                       {item.definition}
                     </td>
-                    <td className="px-5 py-4 align-top font-serif text-slate-600 italic leading-relaxed">
+                    <td className="px-5 py-4 align-top font-serif text-slate-600 dark:text-slate-300 italic leading-relaxed">
                       <div className="flex items-start gap-1.5">
                         <button
                           onClick={() => speakWord(item.contextSentence)}
                           title="Escuchar oración completa en contexto"
                           className={`p-1 rounded transition-all shrink-0 mt-0.5 cursor-pointer ${
                             speakingTerm === item.contextSentence
-                              ? 'bg-indigo-100 text-indigo-700 ring-2 ring-indigo-300 scale-105'
-                              : 'text-slate-400 hover:text-indigo-600 hover:bg-indigo-50'
+                              ? 'bg-indigo-100 dark:bg-indigo-900/80 text-indigo-700 dark:text-indigo-300 ring-2 ring-indigo-300 scale-105'
+                              : 'text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-slate-800'
                           }`}
                         >
                           <Volume2 className="w-3.5 h-3.5" />
@@ -554,11 +554,11 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
                     </td>
                     <td className="px-5 py-4 align-top">
                       {item.collocation ? (
-                        <span className="inline-block bg-indigo-50 text-indigo-800 text-[11px] font-medium px-2 py-0.5 rounded border border-indigo-100">
+                        <span className="inline-block bg-indigo-50 dark:bg-indigo-950/60 text-indigo-800 dark:text-indigo-300 text-[11px] font-medium px-2 py-0.5 rounded border border-indigo-100 dark:border-indigo-800">
                           {item.collocation}
                         </span>
                       ) : (
-                        <span className="text-slate-400">—</span>
+                        <span className="text-slate-400 dark:text-slate-600">—</span>
                       )}
                     </td>
                   </tr>
@@ -571,15 +571,15 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
 
       {/* Next Step Section Card */}
       {onNavigateTab && (
-        <div className="bg-gradient-to-r from-indigo-50 via-white to-amber-50/40 rounded-2xl p-6 border-2 border-indigo-200/80 shadow-sm flex flex-col md:flex-row items-center justify-between gap-5">
+        <div className="bg-gradient-to-r from-indigo-50 dark:from-slate-900 via-white dark:via-slate-900/90 to-amber-50/40 dark:to-indigo-950/30 rounded-2xl p-6 border-2 border-indigo-200/80 dark:border-indigo-800/80 shadow-sm flex flex-col md:flex-row items-center justify-between gap-5 transition-colors">
           <div className="space-y-1 text-center md:text-left">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800 text-[11px] font-bold">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-950/80 text-indigo-800 dark:text-indigo-300 text-[11px] font-bold border border-indigo-200/60 dark:border-indigo-800">
               <span>Siguiente Fase del Módulo</span>
             </div>
-            <h3 className="text-base font-bold text-slate-900">
+            <h3 className="text-base font-bold text-slate-900 dark:text-white">
               ¿Listo para poner a prueba tu aprendizaje?
             </h3>
-            <p className="text-xs text-slate-600 max-w-xl">
+            <p className="text-xs text-slate-600 dark:text-slate-300 max-w-xl">
               Continúa al <strong>Comprehension Quiz</strong> para responder las preguntas de opción múltiple con evidencias textuales, o regresa a releer el pasaje.
             </p>
           </div>
@@ -590,9 +590,9 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
                 onNavigateTab('passage');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-xs font-semibold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 transition-colors cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors cursor-pointer"
             >
-              <BookOpen className="w-4 h-4 text-indigo-600" />
+              <BookOpen className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
               <span>← Releer Reading Passage</span>
             </button>
             <button
@@ -600,7 +600,7 @@ export const VocabularySection: React.FC<VocabularySectionProps> = ({
                 onNavigateTab('quiz');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-sm shadow-indigo-200 transition-transform active:scale-95 cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-sm shadow-indigo-200 dark:shadow-none transition-transform active:scale-95 cursor-pointer"
             >
               <Target className="w-4 h-4 text-amber-300" />
               <span>Comprehension Quiz</span>

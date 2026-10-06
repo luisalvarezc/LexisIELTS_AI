@@ -8,9 +8,10 @@ import { VocabularySection } from './components/VocabularySection';
 import { QuizSection } from './components/QuizSection';
 import { JsonViewerModal } from './components/JsonViewerModal';
 import { PrintWorksheet } from './components/PrintWorksheet';
+import { PdfExportModal } from './components/PdfExportModal';
 import { SAMPLE_MODULES } from './data/sampleModules';
 import { GenerationParams, ReadingModule } from './types/module';
-import { Sparkles, Layers, BookOpen, CheckCircle, AlertCircle, Upload, Target, Code2, Smartphone } from 'lucide-react';
+import { Sparkles, Layers, BookOpen, CheckCircle, AlertCircle, Upload, Target, Code2, Smartphone, FileDown } from 'lucide-react';
 
 const LOCAL_STORAGE_KEY = 'lexis_ielts_active_module';
 
@@ -31,15 +32,20 @@ export default function App() {
   const [viewMode, setViewMode] = useState<'tabs' | 'continuous'>('tabs');
   const [isGeneratorOpen, setIsGeneratorOpen] = useState(false);
   const [isImportOpen, setIsImportOpen] = useState(false);
+  const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string; showPdfAction?: boolean } | null>(null);
 
-  // Save to LocalStorage whenever currentModule changes
+  // Save to LocalStorage and sync document title whenever currentModule changes
   useEffect(() => {
     try {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(currentModule));
     } catch (e) {
       console.warn('Could not cache module in localStorage', e);
+    }
+    // Update document title so browser print & save-as-PDF suggests the exact module title
+    if (currentModule?.title) {
+      document.title = `${currentModule.title} · ${currentModule.targetLevel} · LexisIELTS`;
     }
   }, [currentModule]);
 
@@ -76,8 +82,9 @@ export default function App() {
       setStatusMessage({
         type: 'success',
         text: `Módulo generado con éxito: "${generatedModule.title}" (${generatedModule.wordCount} palabras, ${generatedModule.targetLevel}).`,
+        showPdfAction: true,
       });
-      setTimeout(() => setStatusMessage(null), 5000);
+      setTimeout(() => setStatusMessage(null), 8000);
     } catch (err: any) {
       console.error('Generation error:', err);
       setStatusMessage({
@@ -91,11 +98,11 @@ export default function App() {
   };
 
   const handlePrint = () => {
-    window.print();
+    setIsPdfModalOpen(true);
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col font-sans selection:bg-indigo-100 selection:text-indigo-900 pb-16 md:pb-0 w-full max-w-full overflow-x-hidden">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col font-sans selection:bg-indigo-100 selection:text-indigo-900 dark:selection:bg-indigo-900 dark:selection:text-indigo-100 pb-16 md:pb-0 w-full max-w-full overflow-x-hidden text-slate-900 dark:text-slate-100 transition-colors">
       {/* Top Bar Contract (3 zones) */}
       <Navbar
         activeTab={activeTab}
@@ -115,23 +122,32 @@ export default function App() {
         {/* Status Notification */}
         {statusMessage && (
           <div
-            className={`mb-6 p-4 rounded-xl border flex items-center justify-between gap-3 text-xs transition-all ${
+            className={`mb-6 p-4 rounded-xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs transition-all ${
               statusMessage.type === 'success'
-                ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
-                : 'bg-rose-50 border-rose-200 text-rose-800'
+                ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800/80 text-emerald-800 dark:text-emerald-200'
+                : 'bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-800/80 text-rose-800 dark:text-rose-200'
             }`}
           >
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               {statusMessage.type === 'success' ? (
-                <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+                <CheckCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
               ) : (
-                <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+                <AlertCircle className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0" />
               )}
               <span>{statusMessage.text}</span>
+              {statusMessage.showPdfAction && (
+                <button
+                  onClick={() => setIsPdfModalOpen(true)}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-bold bg-emerald-700 dark:bg-emerald-600 text-white hover:bg-emerald-800 dark:hover:bg-emerald-500 transition-colors shadow-2xs ml-1 cursor-pointer"
+                >
+                  <FileDown className="w-3 h-3" />
+                  <span>Descargar Ficha en PDF</span>
+                </button>
+              )}
             </div>
             <button
               onClick={() => setStatusMessage(null)}
-              className="text-slate-400 hover:text-slate-700 font-bold"
+              className="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 font-bold self-end sm:self-auto cursor-pointer"
             >
               ×
             </button>
@@ -139,81 +155,108 @@ export default function App() {
         )}
 
         {/* Quick Curriculum Selector Strip & View Mode Switcher */}
-        <div className="mb-6 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 p-3 bg-white rounded-xl border border-slate-200 shadow-2xs">
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2 min-w-0">
-              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider shrink-0">
-                Módulo:
-              </span>
-              <span className="text-xs font-bold text-slate-800 truncate" title={currentModule.title}>
-                {currentModule.title}
-              </span>
-            </div>
+        {(() => {
+          const isSample1 = currentModule.title === SAMPLE_MODULES[0]?.title;
+          const isSample2 = currentModule.title === SAMPLE_MODULES[1]?.title;
+          const isSample3 = currentModule.title === SAMPLE_MODULES[2]?.title;
+          const isCustomModule = !isSample1 && !isSample2 && !isSample3;
 
-            {/* View Mode Toggle: Tabs vs Continuous */}
-            <div className="flex items-center gap-1 bg-slate-100 p-0.5 rounded-lg border border-slate-200/80 shrink-0">
-              <button
-                onClick={() => setViewMode('tabs')}
-                title="Ver por pestañas individuales"
-                className={`px-2 py-1 text-[11px] font-semibold rounded-md transition-all ${
-                  viewMode === 'tabs'
-                    ? 'bg-white text-indigo-700 shadow-2xs font-bold'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                Pestañas
-              </button>
-              <button
-                onClick={() => setViewMode('continuous')}
-                title="Ver pasaje, vocabulario y quiz todo seguido hacia abajo"
-                className={`px-2 py-1 text-[11px] font-semibold rounded-md transition-all ${
-                  viewMode === 'continuous'
-                    ? 'bg-white text-indigo-700 shadow-2xs font-bold'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                Ver Todo Continuo
-              </button>
-            </div>
-          </div>
+          return (
+            <div className="mb-6 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-2xs transition-colors">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider shrink-0">
+                    Módulo:
+                  </span>
+                  {isCustomModule ? (
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200/50 dark:border-emerald-800 flex items-center gap-1 shrink-0">
+                      <Sparkles className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
+                      Generado con IA
+                    </span>
+                  ) : (
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200/50 dark:border-amber-800 shrink-0">
+                      📚 {isSample1 ? 'Ejemplo 1' : isSample2 ? 'Ejemplo 2' : 'Ejemplo 3'}
+                    </span>
+                  )}
+                  <span className="text-xs font-bold text-slate-800 dark:text-slate-100 truncate" title={currentModule.title}>
+                    {currentModule.title}
+                  </span>
+                </div>
 
-          <div className="flex items-center justify-end gap-1.5 overflow-x-auto text-xs pt-2 md:pt-0 border-t md:border-t-0 border-slate-100">
-            <span className="text-slate-400 text-[11px] hidden lg:inline">Ejemplos:</span>
-            {SAMPLE_MODULES.map((sample, idx) => (
-              <button
-                key={idx}
-                onClick={() => {
-                  setCurrentModule(sample);
-                  setStatusMessage(null);
-                }}
-                className={`px-2.5 py-1 rounded-md text-[11px] font-semibold transition-colors whitespace-nowrap ${
-                  currentModule.title === sample.title
-                    ? 'bg-indigo-50 text-indigo-700 border border-indigo-200'
-                    : 'text-slate-600 hover:bg-slate-100'
-                }`}
-              >
-                Ejemplo {idx + 1}
-              </button>
-            ))}
-            <button
-              onClick={() => setIsImportOpen(true)}
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 transition-colors ml-1"
-            >
-              <Upload className="w-3 h-3 text-slate-500" />
-              <span>Importar</span>
-            </button>
-            <button
-              onClick={() => setIsGeneratorOpen(true)}
-              className="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
-            >
-              + Generar
-            </button>
-          </div>
-        </div>
+                {/* View Mode Toggle: Tabs vs Continuous */}
+                <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-0.5 rounded-lg border border-slate-200/80 dark:border-slate-700 shrink-0">
+                  <button
+                    onClick={() => setViewMode('tabs')}
+                    title="Ver por pestañas individuales"
+                    className={`px-2 py-1 text-[11px] font-semibold rounded-md transition-all ${
+                      viewMode === 'tabs'
+                        ? 'bg-white dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 shadow-2xs font-bold'
+                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                    }`}
+                  >
+                    Pestañas
+                  </button>
+                  <button
+                    onClick={() => setViewMode('continuous')}
+                    title="Ver pasaje, vocabulario y quiz todo seguido hacia abajo"
+                    className={`px-2 py-1 text-[11px] font-semibold rounded-md transition-all ${
+                      viewMode === 'continuous'
+                        ? 'bg-white dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 shadow-2xs font-bold'
+                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                    }`}
+                  >
+                    Ver Todo Continuo
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-end gap-1.5 overflow-x-auto text-xs pt-2 md:pt-0 border-t md:border-t-0 border-slate-100 dark:border-slate-800">
+                <span className="text-slate-400 text-[11px] hidden lg:inline">Ejemplos:</span>
+                {SAMPLE_MODULES.map((sample, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      setCurrentModule(sample);
+                      setStatusMessage(null);
+                    }}
+                    className={`px-2.5 py-1 rounded-md text-[11px] font-semibold transition-colors whitespace-nowrap ${
+                      currentModule.title === sample.title
+                        ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800'
+                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                    }`}
+                  >
+                    Ejemplo {idx + 1}
+                  </button>
+                ))}
+                <button
+                  onClick={() => setIsPdfModalOpen(true)}
+                  title="Descargar en PDF o imprimir la ficha oficial de este módulo"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-bold bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 transition-colors ml-1 cursor-pointer"
+                >
+                  <FileDown className="w-3 h-3 text-indigo-600 dark:text-indigo-400" />
+                  <span>PDF</span>
+                </button>
+                <button
+                  onClick={() => setIsImportOpen(true)}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+                >
+                  <Upload className="w-3 h-3 text-slate-500 dark:text-slate-400" />
+                  <span>Importar</span>
+                </button>
+                <button
+                  onClick={() => setIsGeneratorOpen(true)}
+                  className="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition-colors"
+                >
+                  + Generar
+                </button>
+              </div>
+            </div>
+          );
+        })()}
 
         {/* Mobile Guidance Banner for iPhone users */}
-        <div className="md:hidden mb-5 p-3 rounded-xl bg-indigo-50/70 border border-indigo-200/80 text-xs text-indigo-900 flex items-start gap-2.5 shadow-2xs">
-          <Smartphone className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
+        <div className="md:hidden mb-5 p-3 rounded-xl bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-200/80 dark:border-indigo-800/60 text-xs text-indigo-900 dark:text-indigo-200 flex items-start gap-2.5 shadow-2xs">
+          <Smartphone className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
           <div className="leading-relaxed">
             <span className="font-bold">Navegación Móvil: </span>
             {viewMode === 'tabs' ? (
@@ -233,24 +276,24 @@ export default function App() {
           <div className="space-y-12">
             {/* Section 1: Reading Passage */}
             <section id="section-passage" className="scroll-mt-24 space-y-3">
-              <div className="flex items-center justify-between pb-2 border-b border-slate-200">
-                <span className="text-xs font-bold uppercase tracking-wider text-indigo-700 flex items-center gap-1.5">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+                <span className="text-xs font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-400 flex items-center gap-1.5">
                   <BookOpen className="w-4 h-4" />
                   1. Reading Passage
                 </span>
-                <span className="text-xs text-slate-500 font-medium">Texto Académico Completo</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Texto Académico Completo</span>
               </div>
               <ReadingPassage module={currentModule} onNavigateTab={setActiveTab} />
             </section>
 
             {/* Section 2: Key Vocabulary */}
             <section id="section-vocab" className="scroll-mt-24 space-y-3">
-              <div className="flex items-center justify-between pb-2 border-b border-slate-200">
-                <span className="text-xs font-bold uppercase tracking-wider text-indigo-700 flex items-center gap-1.5">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+                <span className="text-xs font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-400 flex items-center gap-1.5">
                   <Layers className="w-4 h-4" />
                   2. Key Vocabulary ({currentModule.keyVocabulary.length} términos)
                 </span>
-                <span className="text-xs text-slate-500 font-medium">Tabla & Flashcards</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Tabla & Flashcards</span>
               </div>
               <VocabularySection
                 vocabulary={currentModule.keyVocabulary}
@@ -261,12 +304,12 @@ export default function App() {
 
             {/* Section 3: Comprehension Quiz */}
             <section id="section-quiz" className="scroll-mt-24 space-y-3">
-              <div className="flex items-center justify-between pb-2 border-b border-slate-200">
-                <span className="text-xs font-bold uppercase tracking-wider text-indigo-700 flex items-center gap-1.5">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+                <span className="text-xs font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-400 flex items-center gap-1.5">
                   <Target className="w-4 h-4" />
                   3. Comprehension Quiz ({currentModule.quiz.length} preguntas)
                 </span>
-                <span className="text-xs text-slate-500 font-medium">Evaluación con Evidencias</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Evaluación con Evidencias</span>
               </div>
               <QuizSection
                 questions={currentModule.quiz}
@@ -277,12 +320,12 @@ export default function App() {
 
             {/* Section 4: Clean JSON */}
             <section id="section-json" className="scroll-mt-24 space-y-3">
-              <div className="flex items-center justify-between pb-2 border-b border-slate-200">
-                <span className="text-xs font-bold uppercase tracking-wider text-indigo-700 flex items-center gap-1.5">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+                <span className="text-xs font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-400 flex items-center gap-1.5">
                   <Code2 className="w-4 h-4" />
                   4. Clean JSON
                 </span>
-                <span className="text-xs text-slate-500 font-medium">Datos del Módulo</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Datos del Módulo</span>
               </div>
               <JsonViewerModal
                 module={currentModule}
@@ -333,7 +376,7 @@ export default function App() {
       <PrintWorksheet module={currentModule} />
 
       {/* Footer */}
-      <footer className="mt-auto border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-500 print:hidden">
+      <footer className="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-6 text-center text-xs text-slate-500 dark:text-slate-400 print:hidden transition-colors">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <p>
             LexisIELTS Educational Curriculum Design Studio · Importación y Exportación de Módulos JSON.
@@ -366,6 +409,17 @@ export default function App() {
         isOpen={isImportOpen}
         onClose={() => setIsImportOpen(false)}
         onImport={handleImportModule}
+      />
+
+      {/* PDF Export & Download Modal */}
+      <PdfExportModal
+        isOpen={isPdfModalOpen}
+        onClose={() => setIsPdfModalOpen(false)}
+        module={currentModule}
+        onSelectModule={(mod) => {
+          setCurrentModule(mod);
+          setActiveTab('passage');
+        }}
       />
     </div>
   );
