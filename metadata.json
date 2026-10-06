@@ -1,0 +1,8 @@
+{
+  "name": "LexisIELTS - Academic Reading & CEFR Module Studio",
+  "description": "Generate and practice IELTS and CEFR academic reading modules with cohesive paragraph structures, key vocabulary tables, and interactive comprehension quizzes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
