@@ -30,7 +30,43 @@ export async function generateReadingModule(params: GenerationParams): Promise<R
     throw new Error('GEMINI_API_KEY no está configurada en las variables de entorno del servidor.');
   }
 
-  const prompt = `Generate a complete, rigorous, high-yield educational reading module matching these exact parameters:
+  const isStoryMode =
+    structureType.toLowerCase().includes('narrative') ||
+    structureType.toLowerCase().includes('cuento') ||
+    structureType.toLowerCase().includes('story') ||
+    structureType.toLowerCase().includes('libre') ||
+    structureType.toLowerCase().includes('free') ||
+    structureType.toLowerCase().includes('anecdote') ||
+    structureType.toLowerCase().includes('crónica');
+
+  const prompt = isStoryMode
+    ? `Generate an engaging, high-quality creative story, tale, or narrative educational reading module (Tema Libre / Cuento) matching these exact parameters:
+- Topic / Story Theme: "${topic}" (If provided in Spanish or any other language, formulate the story in evocative, natural British/International English calibrated strictly to the requested level).
+- Target Level: ${targetLevel} (CEFR / IELTS)
+- Structure Type: ${structureType} (Creative narrative / story designed as an enjoyable study break while actively practicing high-level vocabulary and comprehension).
+- Number of Quiz Questions: ${numQuestions}
+
+Strict requirements for this Creative Narrative / Story module:
+1. Title: Captivating, literary, and clear in English.
+2. Target Level & Band: Explicitly state the target level (e.g. "${targetLevel}"). The English must strictly adhere to this level through rich, nuanced vocabulary, evocative descriptions, varied syntax (inversions, participle phrases, conditional clauses), and literary finesse suitable for this Band.
+3. Reading Text:
+   - Word count: Strictly between 250 and 350 words (NEVER exceed 350 words).
+   - Organization: A 4-paragraph flowing narrative structure with clear story progression:
+     * Paragraph 1 (role: "Setting the Scene & Exposition"): Introduces the atmosphere, protagonist, and historical or fantastical context.
+     * Paragraph 2 (role: "Narrative Ascent & Journey"): Develops the narrative conflict, journey, or curious discovery.
+     * Paragraph 3 (role: "Climax & Turning Point"): The emotional peak, unexpected twist, or revelation.
+     * Paragraph 4 (role: "Resolution & Reflection"): The outcome, lasting impression, or philosophical takeaway.
+   - Cohesion: Explicit use of narrative discourse markers and transition phrases (e.g., "Meanwhile", "To their astonishment", "Before long", "Consequently", "In retrospect", "As dusk fell", "Nevertheless").
+   - Vocabulary: Formal, expressive, and descriptive collocations suitable for the requested Band.
+4. Key Vocabulary Table: 4 to 6 critical terms from the story with term, partOfSpeech, English definition, contextual usage sentence, and common collocation.
+5. Reading Comprehension Quiz:
+   - Exactly ${numQuestions} multiple-choice questions focusing on narrative plot, character motivations, contextual vocabulary, and inferential logic.
+   - 4 options per question (A, B, C, D) with exactly one unambiguous correct answer.
+   - An answer key with brief explanation and the exact evidence quote from the story.
+6. Examiner Notes: Brief summary of narrative tone, literary devices, and target band lexical features.
+
+Return clean, valid JSON matching the schema.`
+    : `Generate a complete, rigorous, high-yield educational reading module matching these exact parameters:
 - Topic / Proposition: "${topic}" (If provided in Spanish or any other language, formulate the academic module in formal British/International Academic English corresponding to the topic).
 - Target Level: ${targetLevel} (CEFR / IELTS)
 - Structure Type: ${structureType}
@@ -40,7 +76,7 @@ Strict requirements:
 1. Title: Engaging, academic, and clear in English.
 2. Target Level & Band: Explicitly state the target level (e.g. "${targetLevel}").
 3. Reading Text:
-   - Word count: Strictly between 250 and 350 words (ideal 1-page reading).
+   - Word count: Strictly between 250 and 350 words (ideal 1-page reading; NEVER exceed 350 words).
    - Organization: A strict 4-paragraph argumentative or informative structure (Introduction with thesis, Body Paragraph 1 supporting arguments/contributions, Body Paragraph 2 counterarguments/challenges, Conclusion and synthesis).
    - Cohesion: Mandatory, explicit use of high-band linking devices (e.g., "Consequently", "On the one hand", "On the other hand", "Furthermore", "In conclusion", "Thereby").
    - Vocabulary: Formal, precise collocations suitable for the requested Band.
@@ -54,23 +90,19 @@ Strict requirements:
 Return clean, valid JSON matching the schema.`;
 
   const config = {
-    systemInstruction: `You are an expert English language examiner and educational content creator specializing in IELTS and CEFR curriculum design.
+    systemInstruction: `You are an expert English language examiner, literary educator, and curriculum designer specializing in IELTS and CEFR curriculum development.
 
 Your task is to generate high-quality educational reading modules based on a user-provided topic and target CEFR/IELTS level.
 
-Each generation must strictly follow this structure:
-1. Title: Engaging, academic, and clear.
-2. Target Level & Band: Explicitly stating the target level (e.g., IELTS Band 7.0 / CEFR C1).
-3. Reading Text:
-   - Length: Between 250 and 350 words (ideal for 1-page reading).
-   - Organization: A 4-paragraph argumentative or informative structure (Introduction with thesis, Body Paragraph 1 supporting/contributions, Body Paragraph 2 counterarguments/challenges, Conclusion).
-   - Cohesion: Mandatory use of high-band linking devices (e.g., "Consequently", "On the one hand", "On the other hand", "Furthermore", "In conclusion").
-   - Vocabulary: Formal, precise collocations suitable for the requested Band.
-4. Key Vocabulary Table: 4 to 6 critical terms with part of speech, English definition, and contextual usage.
-5. Reading Comprehension Quiz:
-   - 4 to 6 multiple-choice questions focusing on main ideas, detailed facts, vocabulary in context, and inferential logic.
-   - 4 options per question (A, B, C, D) with exactly one unambiguous correct answer.
-   - An answer key with brief explanations.
+You support two pedagogical modalities:
+1. Academic Discourse Modules: Formal argumentative/informative analysis (Introduction with thesis, Body 1 supporting, Body 2 counterarguments, Conclusion) with formal academic collocations and discourse linkers.
+2. Free Topic & Creative Narrative Modules (Tema Libre / Cuentos / Stories): Immersive short stories, historical anecdotes, or narrative tales providing an enjoyable study break while strictly upholding the requested CEFR/IELTS lexical richness, syntax variety, and comprehension rigour. Organized across 4 flowing narrative paragraphs (Setting/Exposition, Narrative Ascent/Journey, Climax/Turning Point, Resolution/Reflection).
+
+Common rules for both modalities:
+- Length: Strictly between 250 and 350 words (ideal for 1-page reading; NEVER exceed 350 words).
+- Cohesion: Mandatory use of high-band linking devices and discourse markers.
+- Key Vocabulary Table: 4 to 6 critical terms with part of speech, English definition, and contextual usage.
+- Reading Comprehension Quiz: 4 to 6 multiple-choice questions focusing on main ideas/plot, detailed facts, vocabulary in context, and inferential logic. 4 options per question (A, B, C, D) with exactly one unambiguous correct answer, an explanation, and exact evidence quotes.
 
 Always return valid, clean JSON matching the specified schema.`,
     responseMimeType: 'application/json',

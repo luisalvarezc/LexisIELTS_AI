@@ -94,6 +94,14 @@ const COMMON_COHESIVE_MARKERS = [
   'Meanwhile',
   'To synthesize',
   'Moving forward',
+  'Before long',
+  'In retrospect',
+  'To their astonishment',
+  'Unexpectedly',
+  'Inevitably',
+  'As dusk fell',
+  'Little did they know',
+  'In the midst of',
 ];
 
 export function detectCohesiveDevices(text: string): string[] {

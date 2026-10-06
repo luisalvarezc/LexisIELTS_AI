@@ -335,5 +335,169 @@ export const SAMPLE_MODULES: ReadingModule[] = [
         'Cohesive Linkers: In an era characterized by, On the one hand, On the other hand, Consequently, In conclusion, therefore'
       ]
     }
+  },
+  {
+    title: 'The Clockmaker of Edinburgh and the Suspended Hour',
+    targetLevel: 'IELTS Band 7.5 / CEFR C1',
+    structureType: 'Tema Libre / Cuento o Relato (Narrative Story Break)',
+    topic: 'An antique clockmaking workshop and a curious temporal encounter in 19th-century Edinburgh',
+    wordCount: 297,
+    readingText: {
+      fullText:
+        'Deep within the labyrinthine alleyways of Edinburgh’s Old Town, Angus Macintyre tended his workshop amidst a chorus of rhythmic ticking. Outside, thick sea mist crept through the wynds, yet within his sanctum of brass and mahogany, time was treated as a malleable medium. Angus, having spent decades calibrating delicate escapements, possessed an uncanny instinct for chronometers. Consequently, eccentric collectors frequented his dimly lit atelier, seeking counsel on mechanisms that defied conventional mechanics.\n\nOn a tempestuous November twilight, an enigmatic stranger wrapped in a woollen cloak crossed the threshold, clutching an ornate silver timepiece. Without uttering a greeting, the visitor placed the tarnished contraption onto the workbench, whispering that its hands moved only when its observer remained motionless. Although initially skeptical, Angus scrutinized the escapement through his brass loupe. To his sheer astonishment, the balance wheel oscillated backwards, emitting a melodious resonance that seemed to suspend the ambient drafts within the room.\n\nSuddenly, the heavy clocks lining the perimeter fell into profound silence, their pendulums paralyzed mid-swing. For several fleeting moments, the bustling clamor of carriages upon the cobblestones outside evaporated into ethereal stillness. In that suspended vacuum, Angus perceived the faint aroma of summer heather and heard the distant tolling of a cathedral bell destroyed decades prior. Nevertheless, before he could articulate his bewilderment, the stranger gently turned a knurled dial, instantly releasing the room back into chronological motion.\n\nBefore Angus could speak, the stranger vanished into the foggy night, leaving the anomalous clock behind. In retrospect, the artisan never attempted to dismantle the artefact, choosing instead to let it rest upon his mantlepiece. Consequently, whenever modern visitors dismiss the poetic unpredictability of existence, Angus smiles at his quiet gallery, well aware that certain ephemeral wonders can never be measured by mere mechanical gears.',
+      paragraphs: [
+        {
+          role: 'Scene 1: Setting & Atmosphere',
+          text:
+            'Deep within the labyrinthine alleyways of Edinburgh’s Old Town, Angus Macintyre tended his workshop amidst a chorus of rhythmic ticking. Outside, thick sea mist crept through the wynds, yet within his sanctum of brass and mahogany, time was treated as a malleable medium. Angus, having spent decades calibrating delicate escapements, possessed an uncanny instinct for chronometers. Consequently, eccentric collectors frequented his dimly lit atelier, seeking counsel on mechanisms that defied conventional mechanics.',
+          cohesiveDevices: ['Outside', 'yet within', 'Consequently']
+        },
+        {
+          role: 'Scene 2: Narrative Ascent & The Curious Mechanism',
+          text:
+            'On a tempestuous November twilight, an enigmatic stranger wrapped in a woollen cloak crossed the threshold, clutching an ornate silver timepiece. Without uttering a greeting, the visitor placed the tarnished contraption onto the workbench, whispering that its hands moved only when its observer remained motionless. Although initially skeptical, Angus scrutinized the escapement through his brass loupe. To his sheer astonishment, the balance wheel oscillated backwards, emitting a melodious resonance that seemed to suspend the ambient drafts within the room.',
+          cohesiveDevices: ['Without uttering', 'Although initially', 'To his sheer astonishment']
+        },
+        {
+          role: 'Scene 3: Climax & Turning Point',
+          text:
+            'Suddenly, the heavy clocks lining the perimeter fell into profound silence, their pendulums paralyzed mid-swing. For several fleeting moments, the bustling clamor of carriages upon the cobblestones outside evaporated into ethereal stillness. In that suspended vacuum, Angus perceived the faint aroma of summer heather and heard the distant tolling of a cathedral bell destroyed decades prior. Nevertheless, before he could articulate his bewilderment, the stranger gently turned a knurled dial, instantly releasing the room back into chronological motion.',
+          cohesiveDevices: ['Suddenly', 'For several fleeting moments', 'In that suspended vacuum', 'Nevertheless']
+        },
+        {
+          role: 'Scene 4: Resolution & Lingering Reflection',
+          text:
+            'Before Angus could speak, the stranger vanished into the foggy night, leaving the anomalous clock behind. In retrospect, the artisan never attempted to dismantle the artefact, choosing instead to let it rest upon his mantlepiece. Consequently, whenever modern visitors dismiss the poetic unpredictability of existence, Angus smiles at his quiet gallery, well aware that certain ephemeral wonders can never be measured by mere mechanical gears.',
+          cohesiveDevices: ['Before', 'In retrospect', 'Consequently', 'well aware that']
+        }
+      ]
+    },
+    keyVocabulary: [
+      {
+        term: 'labyrinthine',
+        partOfSpeech: 'adjective',
+        definition: 'Irregular, intricate, and twisting like a maze or labyrinth.',
+        contextSentence: 'Deep within the labyrinthine alleyways of Edinburgh’s Old Town...',
+        collocation: 'labyrinthine alleyways / labyrinthine network'
+      },
+      {
+        term: 'malleable',
+        partOfSpeech: 'adjective',
+        definition: 'Capable of being shaped, altered, or adapted through influence or craft.',
+        contextSentence: '...time was treated as a malleable medium rather than an absolute tyrant.',
+        collocation: 'malleable medium / malleable concept'
+      },
+      {
+        term: 'enigmatic',
+        partOfSpeech: 'adjective',
+        definition: 'Mysterious, puzzling, and difficult to comprehend or interpret.',
+        contextSentence: 'On a tempestuous November twilight, an enigmatic stranger wrapped in a woollen cloak...',
+        collocation: 'enigmatic stranger / enigmatic smile'
+      },
+      {
+        term: 'resonance',
+        partOfSpeech: 'noun',
+        definition: 'The quality in a sound of being deep, full, and reverberating; also evocative emotional depth.',
+        contextSentence: '...emitting a melodious resonance that seemed to suspend the ambient drafts...',
+        collocation: 'melodious resonance / profound resonance'
+      },
+      {
+        term: 'ephemeral',
+        partOfSpeech: 'adjective',
+        definition: 'Lasting for a remarkably brief or fleeting period; transient and precious.',
+        contextSentence: '...well aware that certain ephemeral wonders can never be measured by mere mechanical gears.',
+        collocation: 'ephemeral wonders / ephemeral moments'
+      }
+    ],
+    quiz: [
+      {
+        id: 1,
+        question: 'What is the central narrative focus of the passage?',
+        questionType: 'main_idea',
+        options: {
+          A: 'A technical debate regarding gear durability in industrial steam machinery.',
+          B: 'An artisan clockmaker’s encounter with an anomalous silver timepiece that temporarily suspends his perception of time.',
+          C: 'A historical census documenting antique retailers along Edinburgh’s Royal Mile.',
+          D: 'A legal dispute over the copyright of Swiss pocket watches.'
+        },
+        correctAnswer: 'B',
+        explanation:
+          'The passage tells the story of Angus Macintyre, an Edinburgh clockmaker, who receives a strange silver timepiece that causes time and noise to momentarily freeze.',
+        evidenceQuote:
+          'On a tempestuous November twilight, an enigmatic stranger... clutching an ornate silver timepiece... To his sheer astonishment, the balance wheel oscillated backwards...'
+      },
+      {
+        id: 2,
+        question: 'According to Paragraph 2, what unusual phenomenon occurred when Angus inspected the clock mechanism?',
+        questionType: 'detailed_fact',
+        options: {
+          A: 'The wooden workbench caught fire from electrical sparks.',
+          B: 'The balance wheel oscillated backwards and produced a melodious resonance.',
+          C: 'The dials melted into liquid silver under the lamplight.',
+          D: 'The timepiece chimed twelve times in rapid succession.'
+        },
+        correctAnswer: 'B',
+        explanation:
+          'The text states that Angus was astonished because the balance wheel oscillated backwards and emitted a melodious resonance.',
+        evidenceQuote:
+          'To his sheer astonishment, the balance wheel oscillated backwards, emitting a melodious resonance that seemed to suspend the ambient drafts within the room.'
+      },
+      {
+        id: 3,
+        question: 'What sensory details did Angus experience during the suspended vacuum described in Paragraph 3?',
+        questionType: 'detailed_fact',
+        options: {
+          A: 'The sharp taste of salt water and screaming seagulls.',
+          B: 'The fragrance of summer heather and the chime of a cathedral bell destroyed decades earlier.',
+          C: 'Absolute pitch darkness accompanied by cold torrential rain indoors.',
+          D: 'Loud brass trumpet music playing from an empty street.'
+        },
+        correctAnswer: 'B',
+        explanation:
+          'During the momentary freeze, Angus experienced the smell of summer heather and heard the chime of a cathedral bell that had been destroyed thirty years before.',
+        evidenceQuote:
+          'In that suspended vacuum, Angus perceived the faint aroma of summer heather and heard the distant tolling of a cathedral bell destroyed decades prior.'
+      },
+      {
+        id: 4,
+        question: 'In Paragraph 1, why does the author describe time as a "malleable medium"?',
+        questionType: 'vocabulary_in_context',
+        options: {
+          A: 'To indicate that metal clocks were fragile and melted in the workshop heat.',
+          B: 'To convey that within the workshop, time was felt to be flexible and shaped by craftsmanship rather than rigid.',
+          C: 'To illustrate that Angus only accepted malleable gold coins as payment.',
+          D: 'To explain why Edinburgh clockmakers frequently arrived late for public lectures.'
+        },
+        correctAnswer: 'B',
+        explanation:
+          'The word "malleable" (shapeable, adaptable) contrasts with "an absolute tyrant", conveying that time inside the artisan workshop was treated as flexible and artistic.',
+        evidenceQuote:
+          '...yet within his sanctum of brass and mahogany, time was treated as a malleable medium.'
+      },
+      {
+        id: 5,
+        question: 'What does Angus’s decision to leave the clock on his mantlepiece imply about his character in Paragraph 4?',
+        questionType: 'inferential_logic',
+        options: {
+          A: 'He was too lazy to unscrew the mechanism and sell the silver parts.',
+          B: 'He revered the mystery and recognized that not all life experiences can be reduced to cold mechanical analysis.',
+          C: 'He planned to return it to the municipal police station the following morning.',
+          D: 'He was waiting for a wealthier foreign collector to make an auction offer.'
+        },
+        correctAnswer: 'B',
+        explanation:
+          'Angus kept the intact clock as a testament to the poetic unpredictability of existence, understanding that certain ephemeral wonders exceed mechanical gears.',
+        evidenceQuote:
+          '...the artisan never attempted to dismantle the artefact, choosing instead to let it rest upon his mantlepiece... well aware that certain ephemeral wonders can never be measured by mere mechanical gears.'
+      }
+    ],
+    examinerNotes: {
+      academicToneSummary:
+        'A literary narrative module calibrated to CEFR C1 / IELTS Band 7.5. Offers an engaging narrative break while cultivating advanced descriptive vocabulary (labyrinthine, enigmatic, malleable, ephemeral) and narrative cohesive discourse.',
+      targetLexicalBandFeatures: [
+        'Literary & Atmospheric Collocations: labyrinthine alleyways, malleable medium, enigmatic stranger, anomalous clock, ethereal stillness, ephemeral wonders',
+        'Narrative Discourse Devices: Outside, yet within, Consequently, Although initially, To his sheer astonishment, In that suspended vacuum, Nevertheless, In retrospect'
+      ]
+    }
   }
 ];

@@ -75,6 +75,12 @@ export const ReadingPassage: React.FC<ReadingPassageProps> = ({ module, onNaviga
   };
 
   const isWordCountCompliant = module.wordCount >= 250 && module.wordCount <= 350;
+  const isStory =
+    module.structureType?.toLowerCase().includes('narrative') ||
+    module.structureType?.toLowerCase().includes('cuento') ||
+    module.structureType?.toLowerCase().includes('story') ||
+    module.structureType?.toLowerCase().includes('libre') ||
+    module.structureType?.toLowerCase().includes('anecdote');
 
   return (
     <div className="space-y-6 max-w-full overflow-hidden">
@@ -103,7 +109,10 @@ export const ReadingPassage: React.FC<ReadingPassageProps> = ({ module, onNaviga
         </h1>
 
         <p className="mt-2 text-xs text-slate-600 dark:text-slate-300 max-w-3xl break-words">
-          <span className="font-semibold text-slate-700 dark:text-slate-200">Curriculum Topic:</span> {module.topic}
+          <span className="font-semibold text-slate-700 dark:text-slate-200">
+            {isStory ? 'Story / Narrative Theme:' : 'Curriculum Topic:'}
+          </span>{' '}
+          {module.topic}
         </p>
 
         {/* Dedicated Audio Player Bar with Global Voice Selector */}
@@ -193,11 +202,15 @@ export const ReadingPassage: React.FC<ReadingPassageProps> = ({ module, onNaviga
         </div>
       </div>
 
-      {/* 4-Paragraph Reading Text Display */}
+      {/* Reading Text Display */}
       <div className="bg-white dark:bg-slate-900 rounded-xl p-4 sm:p-8 md:p-10 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 max-w-full overflow-hidden transition-colors">
         <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3 text-xs text-slate-400 dark:text-slate-500 font-serif italic flex-wrap gap-2">
-          <span>Official Academic Reading Passage (One-Page Format)</span>
-          <span>IELTS Exam Simulation</span>
+          <span>
+            {isStory
+              ? 'Creative Narrative & Story Break (CEFR Calibrated)'
+              : 'Official Academic Reading Passage (One-Page Format)'}
+          </span>
+          <span>{isStory ? 'Reading & Listening Practice' : 'IELTS Exam Simulation'}</span>
         </div>
 
         <article className="space-y-6 max-w-full overflow-hidden">

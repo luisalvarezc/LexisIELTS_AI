@@ -56,11 +56,19 @@ export function generateWorksheetPdf(module: ReadingModule): void {
   doc.text(titleLines, margin, y);
   y += titleLines.length * 6 + 2;
 
+  const isStory =
+    module.structureType?.toLowerCase().includes('narrative') ||
+    module.structureType?.toLowerCase().includes('cuento') ||
+    module.structureType?.toLowerCase().includes('story') ||
+    module.structureType?.toLowerCase().includes('libre') ||
+    module.structureType?.toLowerCase().includes('anecdote');
+
   // Subtitle / Topic
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(9);
   doc.setTextColor(71, 85, 105);
-  const topicText = `Academic Curriculum: ${module.topic}  |  ${module.structureType}`;
+  const topicLabel = isStory ? 'Story / Narrative Theme' : 'Academic Curriculum';
+  const topicText = `${topicLabel}: ${module.topic}  |  ${module.structureType}`;
   const topicLines = doc.splitTextToSize(topicText, contentWidth);
   doc.text(topicLines, margin, y);
   y += topicLines.length * 4.5 + 2;
@@ -92,7 +100,9 @@ export function generateWorksheetPdf(module: ReadingModule): void {
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(71, 85, 105);
   doc.text(
-    'Read the four paragraphs of the academic discourse below carefully. Then answer the comprehension questions by circling the single correct letter (A, B, C, or D). Recommended time: 15–20 minutes.',
+    isStory
+      ? 'Read the narrative text below carefully. Then answer the comprehension questions by circling the single correct letter (A, B, C, or D). Recommended time: 15–20 minutes.'
+      : 'Read the four paragraphs of the academic discourse below carefully. Then answer the comprehension questions by circling the single correct letter (A, B, C, or D). Recommended time: 15–20 minutes.',
     margin + 3,
     y + 8.5
   );
@@ -102,7 +112,7 @@ export function generateWorksheetPdf(module: ReadingModule): void {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(10.5);
   doc.setTextColor(30, 41, 59);
-  doc.text('Academic Reading Passage', margin, y);
+  doc.text(isStory ? 'Reading Passage (Narrative Story Break)' : 'Academic Reading Passage', margin, y);
   y += 5;
 
   doc.setFont('helvetica', 'normal');

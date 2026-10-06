@@ -6,19 +6,28 @@ interface PrintWorksheetProps {
 }
 
 export const PrintWorksheet: React.FC<PrintWorksheetProps> = ({ module }) => {
+  const isStory =
+    module.structureType?.toLowerCase().includes('narrative') ||
+    module.structureType?.toLowerCase().includes('cuento') ||
+    module.structureType?.toLowerCase().includes('story') ||
+    module.structureType?.toLowerCase().includes('libre') ||
+    module.structureType?.toLowerCase().includes('anecdote');
+
   return (
     <div className="hidden print:block font-serif text-black p-6 space-y-6 max-w-4xl mx-auto bg-white min-h-screen">
       {/* Worksheet Header */}
       <div className="border-b-2 border-black pb-4 space-y-2">
         <div className="flex justify-between items-start text-xs font-sans uppercase tracking-wider text-gray-600">
-          <span>Official IELTS & CEFR Academic Reading Worksheet</span>
+          <span>{isStory ? 'IELTS & CEFR Reading & Comprehension Worksheet (Story Break)' : 'Official IELTS & CEFR Academic Reading Worksheet'}</span>
           <span className="font-bold text-black">{module.targetLevel}</span>
         </div>
 
         <h1 className="text-2xl font-bold leading-tight text-black">{module.title}</h1>
 
         <div className="text-xs font-sans text-gray-800 flex items-center gap-2">
-          <span className="font-bold uppercase tracking-wide">Academic Curriculum Topic:</span>
+          <span className="font-bold uppercase tracking-wide">
+            {isStory ? 'Story / Narrative Theme:' : 'Academic Curriculum Topic:'}
+          </span>
           <span className="italic">{module.topic}</span>
           <span className="mx-1">·</span>
           <span>{module.structureType}</span>
@@ -39,16 +48,17 @@ export const PrintWorksheet: React.FC<PrintWorksheetProps> = ({ module }) => {
 
       {/* Instructions */}
       <div className="text-xs italic bg-gray-50 p-3 rounded border border-gray-300 font-sans leading-relaxed">
-        <strong>Instructions to Candidates:</strong> Read the four paragraphs of the academic passage below carefully. 
-        Then answer the comprehension examination questions by circling the single unambiguous correct letter (A, B, C, or D). 
-        Recommended test time allocation: 15–20 minutes.
+        <strong>Instructions to Candidates:</strong>{' '}
+        {isStory
+          ? 'Read the narrative text below carefully. Then answer the comprehension examination questions by circling the single unambiguous correct letter (A, B, C, or D). Recommended test time allocation: 15–20 minutes.'
+          : 'Read the four paragraphs of the academic passage below carefully. Then answer the comprehension examination questions by circling the single unambiguous correct letter (A, B, C, or D). Recommended test time allocation: 15–20 minutes.'}
       </div>
 
       {/* Reading Passage */}
       <div className="space-y-4 text-sm leading-relaxed text-justify">
         <div className="flex items-center justify-between border-b border-gray-300 pb-1 text-xs font-sans font-bold uppercase tracking-wider text-gray-700">
           <span>Official Reading Passage</span>
-          <span>One-Page Academic Discourse</span>
+          <span>{isStory ? 'Narrative Story Format' : 'One-Page Academic Discourse'}</span>
         </div>
         {module.readingText.paragraphs.map((p, idx) => (
           <div key={idx} className="space-y-1">
